@@ -117,7 +117,7 @@ export default async function HomePage() {
           <div className="flex-1 grid gap-4">
             {content.how.steps.map((step, index) => (
               <div key={step} className="flex items-start gap-4 rounded-xl border border-border/60 bg-background/80 p-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-background">
+                <div className="flex h-11 w-11 min-w-[2.75rem] items-center justify-center rounded-full bg-foreground text-background">
                   0{index + 1}
                 </div>
                 <p className="text-sm text-muted-foreground">{step}</p>
@@ -128,7 +128,7 @@ export default async function HomePage() {
       </section>
 
       <section id="stampanti" className="mx-auto max-w-6xl px-6 py-16">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <h2 className="text-3xl font-semibold">{content.printers.title}</h2>
           <Button asChild variant="ghost">
             <Link href="/questionario/step-1">Trova la tua soluzione</Link>
