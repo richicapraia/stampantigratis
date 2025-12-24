@@ -14,11 +14,9 @@ export async function createServerClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase environment variables.");
   }
-  const cookieStore = await cookies();
-  const headerStore = await headers();
   return createServerComponentClient({
-    cookies: () => cookieStore,
-    headers: () => headerStore,
+    cookies: async () => await cookies(),
+    headers: async () => await headers(),
     supabaseUrl,
     supabaseKey: supabaseAnonKey,
   });
@@ -28,11 +26,9 @@ export async function createApiClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase environment variables.");
   }
-  const cookieStore = await cookies();
-  const headerStore = await headers();
   return createRouteHandlerClient({
-    cookies: () => cookieStore,
-    headers: () => headerStore,
+    cookies: async () => await cookies(),
+    headers: async () => await headers(),
     supabaseUrl,
     supabaseKey: supabaseAnonKey,
   });
