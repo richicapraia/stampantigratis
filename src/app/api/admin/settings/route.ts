@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { createApiClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 export async function GET() {
-  const supabase = await createApiClient();
-  const { data: sessionData } = await supabase.auth.getSession();
-
-  if (!sessionData.session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("site_settings")
@@ -24,12 +19,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const supabase = await createApiClient();
-  const { data: sessionData } = await supabase.auth.getSession();
-
-  if (!sessionData.session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const supabase = createAdminClient();
 
   const body = await request.json();
   const payload = {

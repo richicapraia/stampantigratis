@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createApiClient } from "@/lib/supabase";
+import { createAdminClient } from "@/lib/supabase-admin";
 
 function aggregate(events: Array<{ path: string | null; referrer: string | null; country: string | null }>) {
   const byPath = new Map<string, number>();
@@ -31,12 +31,7 @@ function aggregate(events: Array<{ path: string | null; referrer: string | null;
 }
 
 export async function GET() {
-  const supabase = await createApiClient();
-  const { data: sessionData } = await supabase.auth.getSession();
-
-  if (!sessionData.session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("analytics_events")
