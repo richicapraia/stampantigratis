@@ -1,9 +1,9 @@
 import { defaultContent, type SiteContent } from "@/components/marketing/site-data";
-import { createServerClient } from "@/lib/supabase";
+import { createPublicClient } from "@/lib/supabase-public";
 
 export async function getSiteContent(): Promise<SiteContent> {
   try {
-    const supabase = await createServerClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("site_content")
       .select("key, data");
