@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export function TrackView() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
     const utm = {
-      utm_source: searchParams.get("utm_source"),
-      utm_medium: searchParams.get("utm_medium"),
-      utm_campaign: searchParams.get("utm_campaign"),
-      utm_content: searchParams.get("utm_content"),
-      utm_term: searchParams.get("utm_term"),
+      utm_source: params.get("utm_source"),
+      utm_medium: params.get("utm_medium"),
+      utm_campaign: params.get("utm_campaign"),
+      utm_content: params.get("utm_content"),
+      utm_term: params.get("utm_term"),
     };
 
     if (Object.values(utm).some(Boolean)) {
@@ -39,7 +38,7 @@ export function TrackView() {
         body,
       });
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }

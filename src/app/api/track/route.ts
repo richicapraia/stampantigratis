@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { createApiClient } from "@/lib/supabase";
+import { createPublicClient } from "@/lib/supabase-public";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const supabase = await createApiClient();
+    const supabase = createPublicClient();
     const headers = request.headers;
 
     const country = headers.get("x-vercel-ip-country") || headers.get("cf-ipcountry") || "";
