@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -37,6 +37,7 @@ function writeStorage<T>(key: string, value: T) {
 export function QuestionarioWizard({ step }: { step: number }) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [submitting, setSubmitting] = useState(false);
 
   const storedDefaults = useMemo(() => readStorage(STORAGE_KEY, quizDefaults), []);
@@ -48,17 +49,16 @@ export function QuestionarioWizard({ step }: { step: number }) {
   });
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
     const utm = {
-      utm_source: params.get("utm_source"),
-      utm_medium: params.get("utm_medium"),
-      utm_campaign: params.get("utm_campaign"),
-      utm_content: params.get("utm_content"),
-      utm_term: params.get("utm_term"),
+      utm_source: searchParams.get("utm_source"),
+      utm_medium: searchParams.get("utm_medium"),
+      utm_campaign: searchParams.get("utm_campaign"),
+      utm_content: searchParams.get("utm_content"),
+      utm_term: searchParams.get("utm_term"),
       referrer: document.referrer || "",
     };
     writeStorage(UTM_KEY, utm);
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     const subscription = methods.watch((value) => {

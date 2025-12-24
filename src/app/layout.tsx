@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { AnalyticsScripts } from "@/components/marketing/analytics-scripts";
@@ -27,12 +26,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="it">
       <body className={`${spaceGrotesk.variable} ${fraunces.variable} antialiased`}>
         <AnalyticsScripts />
-        <Suspense fallback={null}>
-          <TrackView />
-        </Suspense>
+        <TrackView />
         {children}
       </body>
     </html>

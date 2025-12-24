@@ -14,12 +14,20 @@ export async function createServerClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase environment variables.");
   }
-  return createServerComponentClient({ cookies });
+  return createServerComponentClient({
+    cookies: async () => await cookies(),
+    supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 }
 
 export async function createApiClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase environment variables.");
   }
-  return createRouteHandlerClient({ cookies });
+  return createRouteHandlerClient({
+    cookies: async () => await cookies(),
+    supabaseUrl,
+    supabaseKey: supabaseAnonKey,
+  });
 }

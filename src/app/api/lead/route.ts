@@ -1,21 +1,13 @@
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
-
-export async function GET() {
-  return NextResponse.json({ status: "ok", version: "2025-12-24" });
-}
+import { createApiClient } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      return NextResponse.json({ error: "Missing Supabase env" }, { status: 500 });
-    }
+    const supabase = await createApiClient();
 
-    const payload = {
+    const { error } = await supabase.from("leads").insert({
       company_name: body.companyName,
       vat: body.vat,
       sector: body.sector,
@@ -45,27 +37,14 @@ export async function POST(request: Request) {
       consent_marketing: body.consentMarketing,
       utm: body.utm,
       payload: body,
-    };
-
-    const response = await fetch(`${url}/rest/v1/leads`, {
-      method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      const text = await response.text();
-      return NextResponse.json({ error: text }, { status: 400 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Invalid request";
-    return NextResponse.json({ error: message }, { status: 400 });
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }

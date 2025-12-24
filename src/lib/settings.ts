@@ -1,4 +1,4 @@
-import { createPublicClient } from "@/lib/supabase-public";
+import { createServerClient } from "@/lib/supabase";
 
 export type SiteSettings = {
   seo_title: string;
@@ -19,7 +19,7 @@ export const defaultSettings: SiteSettings = {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
-    const supabase = createPublicClient();
+    const supabase = await createServerClient();
     const { data } = await supabase
       .from("site_settings")
       .select("seo_title, seo_description, ga4_id, meta_pixel_id, gtm_id")
