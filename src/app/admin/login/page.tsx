@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createBrowserClient } from "@/lib/supabase-browser";
+import { createClient } from "@/lib/supabase-client";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
     const password = String(formData.get("password") || "");
 
     try {
-      const supabase = createBrowserClient();
+      const supabase = createClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
         setError("Credenziali non valide.");
