@@ -243,6 +243,7 @@ export default async function HomePage() {
             <p>Privacy Policy</p>
             <p>Cookie Policy</p>
             <p>Termini e condizioni</p>
+            <p className="text-xs text-foreground/70">Deploy check: 2025-12-24-17</p>
             <p className="text-xs">Tutti i marchi citati appartengono ai rispettivi proprietari.</p>
           </div>
         </div>
