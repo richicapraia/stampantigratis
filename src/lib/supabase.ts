@@ -1,5 +1,5 @@
 import "server-only";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { createClient } from "@supabase/supabase-js";
 import { createServerComponentClient, createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 
@@ -16,7 +16,6 @@ export async function createServerClient() {
   }
   return createServerComponentClient({
     cookies: async () => await cookies(),
-    headers: async () => await headers(),
     supabaseUrl,
     supabaseKey: supabaseAnonKey,
   });
@@ -28,7 +27,6 @@ export async function createApiClient() {
   }
   return createRouteHandlerClient({
     cookies: async () => await cookies(),
-    headers: async () => await headers(),
     supabaseUrl,
     supabaseKey: supabaseAnonKey,
   });
