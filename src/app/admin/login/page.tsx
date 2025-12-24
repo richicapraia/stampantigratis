@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -32,12 +32,22 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin");
+      router.refresh();
+      router.replace("/admin");
     } catch (err) {
       setError("Configura prima le variabili Supabase in .env.local");
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        router.replace("/admin");
+      }
+    });
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-background">
